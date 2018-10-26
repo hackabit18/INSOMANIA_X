@@ -8,13 +8,24 @@ $lname=htmlspecialchars($_POST['lname']);
 $vehicle=htmlspecialchars($_POST['vno']);
 $email=htmlspecialchars($_POST['email12']);
 $phone=htmlspecialchars($_POST['phn']);
-$sql="insert into user(firstname, lastname, vehicle, email, phone) values ('$fname','$lname','$vehicle','$email','$phone');";
-echo $sql;
+$model=htmlspecialchars($_POST['mod']);
+$sql="insert into user(firstname, lastname, vehicle, email, phone,model) values ('$fname','$lname','$vehicle','$email','$phone','$model');";
+$sql1="select * from valid_plates where number='$vehicle'";
+$val2=$db->query($sql1);
+$row12 = mysqli_fetch_array($val2);
+if($row12['number']==''){
+    echo  '<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+    echo '<script type="text/javascript">';
+    echo 'setTimeout(function () { swal("Failed","The number seemed to be invalid","warning");';
+    echo '}, 100);</script>';
+}
+else{
     $val=$db->query($sql);
     if($val==true)
     {
         header('location: Login.php');
     }
+}
 }
 session_destroy();
 ?>
@@ -122,6 +133,7 @@ session_destroy();
                     <input type="text" placeholder="Vehicle No." required name="vno" class="in"><br><br>
                      <input type="email" placeholder="Email" required name="email12" class="in"><br><br>
                     <input type="number" placeholder="Phone no." required name="phn" class="in"><br><br>
+                    <input type="text" placeholder="Car Model" required name="mod" class="in"><br><br>
                     <button type="submit" class="io" name="send">Sign Up</button><br>&nbsp;
                     <a href="Login.php" style="cursor: pointer;"><p style="font-family:'Quicksand',sans-serif; font-size:14px;font-weight: bolder; color:dodgerblue;">Already have an account Login</p></a><br>
                 </div>
