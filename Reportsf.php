@@ -254,8 +254,7 @@ else
                                  <?php while($row1 = mysqli_fetch_array($valu)):?>
                                 <tr>                           
                                 <td>Request ID</td>
-                                    <td>&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-    <td><?php echo $row1['rid']; ?></td>
+                                    <td>&nbsp;:&nbsp;&nbsp;&nbsp;</td><td><?php echo $row1['rid']; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Date of Lost</td>

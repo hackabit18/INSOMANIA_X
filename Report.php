@@ -22,10 +22,23 @@ else
         while($row = mysqli_fetch_array($val))
         {
         $v=$row['vehicle'];
+        $model=$row['model'];
         }
+        $sql3="select * from valid_plates where number='$v'";
+        $val3=$db->query($sql3);
+        $row12 = mysqli_fetch_array($val3);
+        if($row12['number']==""){
+            echo  '<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+            echo '<script type="text/javascript">';
+            echo 'setTimeout(function () { swal("Failed","The number seemed to be invalid","warning");';
+            echo '}, 100);</script>';
+        }
+        else{
+        if($row12['carmodel']==$model){
         //echo $v;
         $sql2="INSERT INTO requestsf(vehicle,name,date, time, location, details) VALUES ('$v','$k','$date','$time','$loc','$request');";
         $valu=$db->query($sql2);
+
         echo "<script>alert('REQUEST SUBMITTING MAY TAKE TIME AND SCANNING HAS STARTED');</script>";
         $kr=shell_exec("python3 DetectNumberPlate.py $v $loc");
         //echo $kr;  
@@ -40,8 +53,15 @@ echo '<script type="text/javascript">';
         sleep(1);
         $rope=1;
         }
-        
     }
+    else{
+        echo  '<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+        echo '<script type="text/javascript">';
+        echo 'setTimeout(function () { swal("Failed","The model is invalid","warning");';
+        echo '}, 100);</script>';  
+    }
+    }
+}
 }
 if(isset($_POST['kpo']))
 {
@@ -69,7 +89,6 @@ if(isset($_POST['kpo']))
                 margin: 0px;
                 font-family: "Quicksand", sans-serif;
                 font-weight: bolder;
-                background: url("images/roamtram.jpg");
                 background-position: center;
                 background-size: cover;
                 background-repeat: no-repeat;
@@ -130,7 +149,7 @@ if(isset($_POST['kpo']))
                 margin-top: 40px;
                 background: rgba(0, 0, 0, 0.7);
                 width: 400px;
-                height: 635px;
+                height: 600px;
                 
             }
 
@@ -327,9 +346,9 @@ if(isset($_POST['kpo']))
                         </select><br><br>
                         <input type="date" class="in2 res" style="width: 300px;" name="date">&nbsp;<br><br>
                         <textarea class="in res" style="width: 300px;height:100px;resize:none;" placeholder="Enter Details" name="details"></textarea>
-                        <br><br>
+                        <br>
                         <button type="submit" class="io res" name="send">Submit Now</button><br><br>
-                        <button type="submit" class="io res" name="kpo">Reports</button><br><br>
+                        <button type="submit" class="io res" name="kpo">Reports</button><br>
                          <a href="Home.php" class="io res" style="padding:12px;">Home</a>
                     </div>
                 </center>
